@@ -6,524 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "formationazuredfjc"
-		},
-		"CnxLocalFile_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'CnxLocalFile'"
-		},
-		"CnxDatalake_properties_typeProperties_dataLakeStoreUri": {
-			"type": "string",
-			"defaultValue": "https://formationazurejc.azuredatalakestore.net/webhdfs/v1"
-		},
-		"CnxDatalake_properties_typeProperties_tenant": {
-			"type": "string",
-			"defaultValue": "544fe47f-5772-488f-81a9-fa9de607ecfa"
-		},
-		"CnxDatalake_properties_typeProperties_subscriptionId": {
-			"type": "string",
-			"defaultValue": "32ad602f-d364-45c5-ab7f-b8e199af2da0"
-		},
-		"CnxDatalake_properties_typeProperties_resourceGroupName": {
-			"type": "string",
-			"defaultValue": "rg-BDU_EcoleDeLaData"
-		},
-		"CnxLocalFile_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "C:\\Users\\jchateau\\Documents\\Ecole de la Data\\Azure\\Source"
-		},
-		"CnxLocalFile_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "BETD\\jchateau"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/CnxDatalake')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDataLakeStore",
-				"typeProperties": {
-					"dataLakeStoreUri": "[parameters('CnxDatalake_properties_typeProperties_dataLakeStoreUri')]",
-					"tenant": "[parameters('CnxDatalake_properties_typeProperties_tenant')]",
-					"subscriptionId": "[parameters('CnxDatalake_properties_typeProperties_subscriptionId')]",
-					"resourceGroupName": "[parameters('CnxDatalake_properties_typeProperties_resourceGroupName')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MyLocalFilesJC')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TargetAgeSpecific')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxDatalake",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Destination"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDatalake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TargetCountry')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxDatalake",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Destination"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDatalake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TargetDailySubNational')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxDatalake",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Destination"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDatalake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TargetHospital')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxDatalake",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Destination"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDatalake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TargetTesting')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxDatalake",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Destination"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDatalake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CnxLocalFile')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('CnxLocalFile_properties_typeProperties_host')]",
-					"userId": "[parameters('CnxLocalFile_properties_typeProperties_userId')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('CnxLocalFile_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "MyLocalFilesJC",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/MyLocalFilesJC')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SrcAgeSpecific')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxLocalFile",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "age_specific.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "country",
-						"type": "String"
-					},
-					{
-						"name": "country_code",
-						"type": "String"
-					},
-					{
-						"name": "year_week",
-						"type": "String"
-					},
-					{
-						"name": "age_group",
-						"type": "String"
-					},
-					{
-						"name": "new_cases",
-						"type": "String"
-					},
-					{
-						"name": "population",
-						"type": "String"
-					},
-					{
-						"name": "rate_14_day_per_100k",
-						"type": "String"
-					},
-					{
-						"name": "source",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxLocalFile')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SrcCountry')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxLocalFile",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "country.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Country",
-						"type": "String"
-					},
-					{
-						"name": "Response_measure",
-						"type": "String"
-					},
-					{
-						"name": "date_start",
-						"type": "String"
-					},
-					{
-						"name": "date_end",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxLocalFile')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SrcDailySubNational')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxLocalFile",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "subnational_notification_rate.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "country",
-						"type": "String"
-					},
-					{
-						"name": "region_name",
-						"type": "String"
-					},
-					{
-						"name": "nuts_code",
-						"type": "String"
-					},
-					{
-						"name": "date",
-						"type": "String"
-					},
-					{
-						"name": "rate_14_day_per_100k",
-						"type": "String"
-					},
-					{
-						"name": "source",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxLocalFile')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SrcHospital')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxLocalFile",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "hospital.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxLocalFile')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SrcTesting')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CnxLocalFile",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Source"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "testing.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "country",
-						"type": "String"
-					},
-					{
-						"name": "country_code",
-						"type": "String"
-					},
-					{
-						"name": "year_week",
-						"type": "String"
-					},
-					{
-						"name": "new_cases",
-						"type": "String"
-					},
-					{
-						"name": "tests_done",
-						"type": "String"
-					},
-					{
-						"name": "population",
-						"type": "String"
-					},
-					{
-						"name": "testing_rate",
-						"type": "String"
-					},
-					{
-						"name": "positivity_rate",
-						"type": "String"
-					},
-					{
-						"name": "testing_data_source",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxLocalFile')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataIngestion')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -652,15 +140,13 @@
 						"inputs": [
 							{
 								"referenceName": "SrcDailySubNational",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "TargetDailySubNational",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -817,15 +303,13 @@
 						"inputs": [
 							{
 								"referenceName": "SrcAgeSpecific",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "TargetAgeSpecific",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -970,15 +454,13 @@
 						"inputs": [
 							{
 								"referenceName": "SrcHospital",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "TargetHospital",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1087,15 +569,13 @@
 						"inputs": [
 							{
 								"referenceName": "SrcCountry",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "TargetCountry",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1264,33 +744,20 @@
 						"inputs": [
 							{
 								"referenceName": "SrcTesting",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "TargetTesting",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SrcDailySubNational')]",
-				"[concat(variables('factoryId'), '/datasets/TargetDailySubNational')]",
-				"[concat(variables('factoryId'), '/datasets/SrcAgeSpecific')]",
-				"[concat(variables('factoryId'), '/datasets/TargetAgeSpecific')]",
-				"[concat(variables('factoryId'), '/datasets/SrcHospital')]",
-				"[concat(variables('factoryId'), '/datasets/TargetHospital')]",
-				"[concat(variables('factoryId'), '/datasets/SrcCountry')]",
-				"[concat(variables('factoryId'), '/datasets/TargetCountry')]",
-				"[concat(variables('factoryId'), '/datasets/SrcTesting')]",
-				"[concat(variables('factoryId'), '/datasets/TargetTesting')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger1')]",
@@ -1304,8 +771,7 @@
 						"pipelineReference": {
 							"referenceName": "DataIngestion",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -1315,8 +781,7 @@
 						"interval": 15,
 						"startTime": "2021-01-14T16:20:00Z",
 						"endTime": "2021-01-14T19:41:00Z",
-						"timeZone": "UTC",
-						"schedule": {}
+						"timeZone": "UTC"
 					}
 				}
 			},
