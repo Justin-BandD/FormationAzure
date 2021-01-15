@@ -2,7 +2,7 @@
 	"name": "formationazuredfjc",
 	"properties": {
 		"globalParameters": {
-			"patheurope": {
+			"pathraweurope": {
 				"type": "string",
 				"value": "rawdata/europe"
 			}
