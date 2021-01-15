@@ -1,4 +1,12 @@
 {
 	"name": "formationazuredfjc",
+	"properties": {
+		"globalParameters": {
+			"patheurope": {
+				"type": "string",
+				"value": "rawdata/europe"
+			}
+		}
+	},
 	"location": "francecentral"
 }
